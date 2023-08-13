@@ -6,6 +6,9 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.Optional;
+
+import static java.util.Objects.isNull;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class OrderServiceConverter {
@@ -20,5 +23,12 @@ public class OrderServiceConverter {
 
     public static List<OrderDTO> convertOrderEntityListToOrderDTOList(final List<OrderEntity> orderEntityList) {
         return orderEntityList.stream().map(OrderServiceConverter::convertOrderEntityToOrderDTO).toList();
+    }
+
+    public static Optional<OrderDTO> convertOrderEntityOptionalToOrderDTOOptional(final OrderEntity orderEntity) {
+        if (isNull(orderEntity)) {
+            return Optional.empty();
+        }
+        return Optional.ofNullable(convertOrderEntityToOrderDTO(orderEntity));
     }
 }
