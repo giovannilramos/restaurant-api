@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 public class CreateOrderService {
     private final OrderRepositoryProvider orderRepositoryProvider;
 
-    public OrderDTO createOrder(final OrderDTO orderDTO) {
-        return orderRepositoryProvider.save(orderDTO);
+    public void createOrder(final OrderDTO orderDTO) {
+        orderRepositoryProvider.save(orderDTO);
     }
 }
 
