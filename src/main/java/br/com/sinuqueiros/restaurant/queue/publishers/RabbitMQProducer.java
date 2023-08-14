@@ -1,5 +1,6 @@
 package br.com.sinuqueiros.restaurant.queue.publishers;
 
+import br.com.sinuqueiros.restaurant.services.order.dto.OrderDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -18,8 +19,8 @@ public class RabbitMQProducer {
 
     private final RabbitTemplate rabbitTemplate;
 
-    public void sendMessage(final String message) {
-       log.info("Sending message: {}", message);
-       rabbitTemplate.convertAndSend(topicExchange, routingKey, message);
+    public void sendMessage(final OrderDTO orderDTO) {
+       log.info("Sending message: {}", orderDTO.toString());
+       rabbitTemplate.convertAndSend(topicExchange, routingKey, orderDTO);
     }
 }
