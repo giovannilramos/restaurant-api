@@ -20,6 +20,6 @@ spring:
     password: guest
 
 rabbitmq-config:
-  queue: spring-boot
-  exchange: spring-boot-exchange
-  routing-key: teste
+  queue: order-queue
+  exchange: order-exchange
+  routing-key: order-routing-key
