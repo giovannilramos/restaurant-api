@@ -2,7 +2,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/restaurant?useTimezone=true&serverTimezone=America/Sao_Paulo
     username: root
-    password:
+    password: root
     tomcat:
       test-while-idle: true
       validation-query: SELECT 1
@@ -22,8 +22,8 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri:
-          jwk-set-uri:
+          issuer-uri: http://localhost:8180/realms/restaurant-api
+          jwk-set-uri: http://localhost:8180/realms/restaurant-api/protocol/openid-connect/certs
 rabbitmq-config:
   queue: order-queue
   exchange: order-exchange
