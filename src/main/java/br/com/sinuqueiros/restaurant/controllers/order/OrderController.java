@@ -23,7 +23,7 @@ import static br.com.sinuqueiros.restaurant.controllers.order.converters.OrderCo
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/v1/orders")
+@RequestMapping("/v1/order")
 public class OrderController {
     private final RabbitMQProducer rabbitMQProducer;
     private final ListOrderService listOrderService;

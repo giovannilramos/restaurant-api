@@ -1,5 +1,6 @@
 package br.com.sinuqueiros.restaurant.config.security.filters;
 
+import br.com.sinuqueiros.restaurant.repositories.UserRepository;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import jakarta.servlet.http.HttpServletRequest;
@@ -33,10 +34,10 @@ public class AuthSuccessHandler {
 
     @SneakyThrows
     public String generateToken(final User userDetails) {
-        final var user = userRepository.findByEmail(userDetails.getUsername()).orElseThrow(() -> new UsernameNotFoundException("Username not found"));
+        final var user = userRepository.findByUsername(userDetails.getUsername()).orElseThrow(() -> new UsernameNotFoundException("Username not found"));
         return JWT.create()
                 .withIssuer("API Store")
-                .withSubject(user.getEmail())
+                .withSubject(user.getUsername())
                 .withExpiresAt(Instant.ofEpochMilli(ZonedDateTime.now(ZoneId.of("America/Sao_Paulo")).toInstant().toEpochMilli() + expTime))
                 .sign(Algorithm.HMAC256(secret));
     }

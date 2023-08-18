@@ -1,5 +1,7 @@
 package br.com.sinuqueiros.restaurant.config.security.service;
 
+import br.com.sinuqueiros.restaurant.exceptions.UnauthorizedException;
+import br.com.sinuqueiros.restaurant.repositories.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.User;
@@ -16,11 +18,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(final String login) throws UsernameNotFoundException {
-        final var user = userRepository.findByEmail(login)
-                .orElseGet(() -> userRepository.findByUsername(login)
-                        .orElseThrow(() -> new UnauthorizedException("Login not found")));
+        final var user = userRepository.findByUsername(login)
+                .orElseThrow(() -> new UnauthorizedException("Login not found"));
 
-        return new User(user.getEmail(), user.getPassword(),
+        return new User(user.getUsername(), user.getPassword(),
                 user.isEnabled(), user.isAccountNonExpired(),
                 user.isCredentialsNonExpired(), user.isAccountNonLocked(), user.getAuthorities());
     }

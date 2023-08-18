@@ -1,8 +1,10 @@
 package br.com.sinuqueiros.restaurant.entities;
 
+import br.com.sinuqueiros.restaurant.enums.RoleNameEnum;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -19,14 +21,14 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder(toBuilder = true)
 @Table(name = "roles_table")
-public class Roles implements GrantedAuthority {
+public class RolesEntity implements GrantedAuthority {
     @Id
 
     private Long id;
 
     @Enumerated(EnumType.STRING)
     @Column(unique = true, nullable = false)
-    private RoleName roleName;
+    private RoleNameEnum roleName;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
