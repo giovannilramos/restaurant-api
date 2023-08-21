@@ -5,7 +5,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,22 +14,28 @@ import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name = "item_table")
+@Table(name = "product_table")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Builder
-public class ItemEntity {
+public class ProductEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private Integer quantity;
+    @Column(nullable = false, unique = true)
+    private String name;
 
     @Column(nullable = false)
-    private BigDecimal subTotal;
+    private String image;
 
-    @ManyToOne
-    private ProductEntity product;
+    @Column(nullable = false)
+    private String description;
+
+    @Column(nullable = false)
+    private Boolean status;
+
+    @Column(nullable = false)
+    private BigDecimal price;
 }

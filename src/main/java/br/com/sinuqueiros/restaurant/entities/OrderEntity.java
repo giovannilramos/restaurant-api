@@ -6,8 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -35,13 +34,10 @@ public class OrderEntity {
     private Integer tableNumber;
 
     @Column(nullable = false)
-    private Integer quantity;
-
-    @Column(nullable = false)
     private BigDecimal total;
 
-    @ManyToMany
-    @JoinTable(name = "items", joinColumns = @JoinColumn(name = "order_id"), inverseJoinColumns = @JoinColumn(name = "item_id"))
+    @OneToMany
+    @JoinColumn(name = "order_id")
     private List<ItemEntity> items;
 
     @CreationTimestamp
