@@ -2,9 +2,9 @@ package br.com.sinuqueiros.restaurant.controllers.order;
 
 import br.com.sinuqueiros.restaurant.controllers.order.requests.OrderRequest;
 import br.com.sinuqueiros.restaurant.controllers.order.responses.OrderResponse;
-import br.com.sinuqueiros.restaurant.queue.publishers.RabbitMQProducer;
 import br.com.sinuqueiros.restaurant.services.order.GetOrderByIdService;
 import br.com.sinuqueiros.restaurant.services.order.ListOrderService;
+import br.com.sinuqueiros.restaurant.services.order.RequestOrderService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -25,13 +25,13 @@ import static br.com.sinuqueiros.restaurant.controllers.order.converters.OrderCo
 @RequiredArgsConstructor
 @RequestMapping("/v1/order")
 public class OrderController {
-    private final RabbitMQProducer rabbitMQProducer;
     private final ListOrderService listOrderService;
     private final GetOrderByIdService getOrderByIdService;
+    private final RequestOrderService requestOrderService;
 
     @PostMapping
     public ResponseEntity<Void> createOrder(@RequestBody @Valid final OrderRequest orderRequest) {
-        rabbitMQProducer.sendMessage(convertFromOrderRequestToOrderDTO(orderRequest));
+        requestOrderService.requestOrder(convertFromOrderRequestToOrderDTO(orderRequest));
         return ResponseEntity.noContent().build();
     }
 

@@ -1,6 +1,5 @@
 package br.com.sinuqueiros.restaurant.services.order;
 
-import br.com.sinuqueiros.restaurant.exceptions.NotFoundException;
 import br.com.sinuqueiros.restaurant.services.item.CreateItemService;
 import br.com.sinuqueiros.restaurant.services.order.dto.OrderDTO;
 import br.com.sinuqueiros.restaurant.services.order.providers.OrderRepositoryProvider;
@@ -19,8 +18,7 @@ public class CreateOrderService {
 
     public void createOrder(final OrderDTO orderDTO) {
         final var total = orderDTO.getItems().stream().map(itemDTO -> {
-            final var productDTO = productRepositoryProvider.findById(itemDTO.getProduct().getId())
-                    .orElseThrow(() -> new NotFoundException("Product not found"));
+            final var productDTO = productRepositoryProvider.findById(itemDTO.getProduct().getId()).orElseThrow();
             final var subTotal = productDTO.getPrice().multiply(BigDecimal.valueOf(itemDTO.getQuantity()));
             itemDTO.setSubTotal(subTotal);
             return subTotal;
