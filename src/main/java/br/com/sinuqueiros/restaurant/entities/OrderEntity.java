@@ -30,7 +30,7 @@ public class OrderEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name="table_number", nullable = false, unique = true)
+    @Column(name="table_number", nullable = false)
     private Integer tableNumber;
 
     @Column(nullable = false)
