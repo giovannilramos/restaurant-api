@@ -31,8 +31,4 @@ public class OrderRepositoryProvider {
         final var orderEntityOptional = orderRepository.findById(id).orElse(null);
         return convertOrderEntityOptionalToOrderDTOOptional(orderEntityOptional);
     }
-
-    public Boolean existsByTableNumber(final Integer tableNumber) {
-        return orderRepository.existsByTableNumber(tableNumber);
-    }
 }

@@ -15,7 +15,14 @@ import static java.util.Objects.isNull;
 public class OrderServiceConverter {
 
     public static OrderDTO convertOrderEntityToOrderDTO(final OrderEntity orderEntity) {
-        return OrderDTO.builder().id(orderEntity.getId()).build();
+        return OrderDTO.builder()
+                .id(orderEntity.getId())
+                .tableNumber(orderEntity.getTableNumber())
+                .total(orderEntity.getTotal())
+                .items(orderEntity.getItems().stream().map(ItemServiceConverter::convertItemEntityToItemDTO).toList())
+                .createdAt(orderEntity.getCreatedAt())
+                .updatedAt(orderEntity.getUpdatedAt())
+                .build();
     }
 
     public static OrderEntity convertOrderDTOToOrderEntity(final OrderDTO orderDTO) {
