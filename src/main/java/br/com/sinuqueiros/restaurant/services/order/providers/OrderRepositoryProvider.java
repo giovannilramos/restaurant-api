@@ -11,6 +11,7 @@ import java.util.Optional;
 import static br.com.sinuqueiros.restaurant.services.order.converters.OrderServiceConverter.convertOrderDTOToOrderEntity;
 import static br.com.sinuqueiros.restaurant.services.order.converters.OrderServiceConverter.convertOrderEntityListToOrderDTOList;
 import static br.com.sinuqueiros.restaurant.services.order.converters.OrderServiceConverter.convertOrderEntityOptionalToOrderDTOOptional;
+import static br.com.sinuqueiros.restaurant.services.order.converters.OrderServiceConverter.convertOrderEntityToOrderDTO;
 
 @Component
 @RequiredArgsConstructor
@@ -22,9 +23,9 @@ public class OrderRepositoryProvider {
         return convertOrderEntityListToOrderDTOList(orderEntityList);
     }
 
-    public void save(final OrderDTO orderDTO) {
+    public OrderDTO save(final OrderDTO orderDTO) {
         final var orderEntity = convertOrderDTOToOrderEntity(orderDTO);
-        orderRepository.save(orderEntity);
+        return convertOrderEntityToOrderDTO(orderRepository.save(orderEntity));
     }
 
     public Optional<OrderDTO> findById(final Long id) {

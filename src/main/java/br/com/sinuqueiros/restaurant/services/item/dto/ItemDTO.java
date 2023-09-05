@@ -18,5 +18,6 @@ public class ItemDTO {
     private Integer quantity;
     @Setter
     private BigDecimal subTotal;
+    @Setter
     private ProductDTO product;
 }

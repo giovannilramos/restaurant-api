@@ -14,10 +14,13 @@ public class RequestOrderService {
     private final RabbitMQProducer rabbitMQProducer;
 
     public void requestOrder(final OrderDTO orderDTO) {
-        final var anyMatch = orderDTO.getItems().stream().anyMatch(itemDTO -> !Boolean.TRUE.equals(productRepositoryProvider.existsById(itemDTO.getProduct().getId())));
-        if (anyMatch) {
-            throw new NotFoundException("Product not found");
-        }
+        final var itemDTOList = orderDTO.getItems().stream().map(itemDTO -> {
+            final var productDTO = productRepositoryProvider.findById(itemDTO.getProduct().getId())
+                    .orElseThrow(() -> new NotFoundException("Product not found"));
+            itemDTO.setProduct(productDTO);
+            return itemDTO;
+        }).toList();
+        orderDTO.setItems(itemDTOList);
         rabbitMQProducer.sendMessage(orderDTO);
     }
 }

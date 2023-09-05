@@ -15,10 +15,10 @@ public class ItemRepositoryProvider {
     private final ItemRepository itemRepository;
 
     public List<ItemDTO> save(final List<ItemDTO> itemDTOList) {
-        var itemEntityList = itemDTOList.stream().map(ItemServiceConverter::convertItemDTOToItemEntity).toList();
-        itemEntityList = this.itemRepository.saveAll(itemEntityList);
-        return itemEntityList.stream().map(ItemServiceConverter::convertItemEntityToItemDTO).toList();
-
+        return itemDTOList.stream().map(ItemServiceConverter::convertItemDTOToItemEntity)
+                .map(this.itemRepository::save)
+                .map(ItemServiceConverter::convertItemEntityToItemDTO)
+                .toList();
     }
 
     public Optional<ItemDTO> findById(final Long id) {

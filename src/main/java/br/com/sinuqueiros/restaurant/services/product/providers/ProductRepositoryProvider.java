@@ -17,8 +17,4 @@ public class ProductRepositoryProvider {
         final var productEntityOptional = productRepository.findById(id);
         return productEntityOptional.map(ProductServiceConverter::convertProductEntityToProductDTO);
     }
-
-    public Boolean existsById(final Long id) {
-        return productRepository.existsById(id);
-    }
 }

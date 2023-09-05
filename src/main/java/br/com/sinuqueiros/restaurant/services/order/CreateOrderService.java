@@ -7,10 +7,12 @@ import br.com.sinuqueiros.restaurant.services.product.providers.ProductRepositor
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 
-import static br.com.sinuqueiros.restaurant.controllers.order.converters.OrderControllerConverter.convertFromOrderDTOListToOrderResponseList;
+import static br.com.sinuqueiros.restaurant.config.cache.OrderListCache.addOrderResponseItem;
+import static br.com.sinuqueiros.restaurant.config.cache.OrderListCache.getOrderResponseList;
 
 @Service
 @RequiredArgsConstructor
@@ -20,14 +22,19 @@ public class CreateOrderService {
     private final ProductRepositoryProvider productRepositoryProvider;
     private final SimpMessagingTemplate messagingTemplate;
 
+    @Transactional
     public void createOrder(final OrderDTO orderDTO) {
         final var total = calculateTotal(orderDTO);
         orderDTO.setTotal(total);
         final var itemDTOList = createItemService.save(orderDTO.getItems());
         orderDTO.setItems(itemDTOList);
-        orderRepositoryProvider.save(orderDTO);
-        final var orderDTOList = orderRepositoryProvider.findAll();
-        messagingTemplate.convertAndSend("/topic/order", convertFromOrderDTOListToOrderResponseList(orderDTOList));
+        final var orderDTOSaved = orderRepositoryProvider.save(orderDTO);
+        sendUpdatedListToWebsocket(orderDTOSaved);
+    }
+
+    private void sendUpdatedListToWebsocket(final OrderDTO orderDTO) {
+        addOrderResponseItem(orderDTO);
+        messagingTemplate.convertAndSend("/topic/order", getOrderResponseList());
     }
 
     private BigDecimal calculateTotal(final OrderDTO orderDTO) {
