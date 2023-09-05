@@ -1,5 +1,6 @@
 package br.com.sinuqueiros.restaurant.services.order;
 
+import br.com.sinuqueiros.restaurant.enums.OrderStatusEnum;
 import br.com.sinuqueiros.restaurant.services.item.CreateItemService;
 import br.com.sinuqueiros.restaurant.services.order.dto.OrderDTO;
 import br.com.sinuqueiros.restaurant.services.order.providers.OrderRepositoryProvider;
@@ -16,7 +17,7 @@ import static br.com.sinuqueiros.restaurant.config.cache.OrderListCache.getOrder
 
 @Service
 @RequiredArgsConstructor
-public class CreateOrderService {
+public class CreateOrderService implements SendToWebsocket {
     private final OrderRepositoryProvider orderRepositoryProvider;
     private final CreateItemService createItemService;
     private final ProductRepositoryProvider productRepositoryProvider;
@@ -26,13 +27,15 @@ public class CreateOrderService {
     public void createOrder(final OrderDTO orderDTO) {
         final var total = calculateTotal(orderDTO);
         orderDTO.setTotal(total);
+        orderDTO.setStatus(OrderStatusEnum.PREPARING);
         final var itemDTOList = createItemService.save(orderDTO.getItems());
         orderDTO.setItems(itemDTOList);
         final var orderDTOSaved = orderRepositoryProvider.save(orderDTO);
         sendUpdatedListToWebsocket(orderDTOSaved);
     }
 
-    private void sendUpdatedListToWebsocket(final OrderDTO orderDTO) {
+    @Override
+    public void sendUpdatedListToWebsocket(final OrderDTO orderDTO) {
         addOrderResponseItem(orderDTO);
         messagingTemplate.convertAndSend("/topic/order", getOrderResponseList());
     }

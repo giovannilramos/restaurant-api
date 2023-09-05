@@ -22,7 +22,7 @@ public class OrderListCache {
     }
 
     public static void removeOrderResponseItem(final OrderDTO orderDTO) {
-        orderDTOList.remove(orderDTO);
+        orderDTOList.removeIf(orderDTOItem -> orderDTOItem.getId().equals(orderDTO.getId()));
     }
 
     public static void updateOrderResponseItem(final OrderDTO orderDTO) {

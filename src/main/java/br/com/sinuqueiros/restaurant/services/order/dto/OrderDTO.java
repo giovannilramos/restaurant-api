@@ -1,5 +1,6 @@
 package br.com.sinuqueiros.restaurant.services.order.dto;
 
+import br.com.sinuqueiros.restaurant.enums.OrderStatusEnum;
 import br.com.sinuqueiros.restaurant.services.item.dto.ItemDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,6 +23,8 @@ public class OrderDTO {
     private Integer tableNumber;
     @Setter
     private BigDecimal total;
+    @Setter
+    private OrderStatusEnum status;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }

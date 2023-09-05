@@ -38,7 +38,7 @@ public class OrderControllerConverter {
     }
 
     public static OrderResponse convertFromOrderDTOToOrderResponse(final OrderDTO orderDTO) {
-        return new OrderResponse(orderDTO.getId(), orderDTO.getTableNumber(), orderDTO.getTotal(), convertFromItemDTOListToItemResponseList(orderDTO.getItems()), orderDTO.getCreatedAt(), orderDTO.getUpdatedAt());
+        return new OrderResponse(orderDTO.getId(), orderDTO.getTableNumber(), orderDTO.getTotal(), convertFromItemDTOListToItemResponseList(orderDTO.getItems()), orderDTO.getStatus(), orderDTO.getCreatedAt(), orderDTO.getUpdatedAt());
     }
 
     public static List<OrderResponse> convertFromOrderDTOListToOrderResponseList(final List<OrderDTO> orderDTO) {

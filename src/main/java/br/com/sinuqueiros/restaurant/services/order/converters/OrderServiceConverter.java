@@ -19,6 +19,7 @@ public class OrderServiceConverter {
                 .id(orderEntity.getId())
                 .tableNumber(orderEntity.getTableNumber())
                 .total(orderEntity.getTotal())
+                .status(orderEntity.getStatus())
                 .items(orderEntity.getItems().stream().map(ItemServiceConverter::convertItemEntityToItemDTO).toList())
                 .createdAt(orderEntity.getCreatedAt())
                 .updatedAt(orderEntity.getUpdatedAt())
@@ -31,6 +32,7 @@ public class OrderServiceConverter {
                 .items(orderDTO.getItems().stream().map(ItemServiceConverter::convertItemDTOToItemEntity).toList())
                 .tableNumber(orderDTO.getTableNumber())
                 .total(orderDTO.getTotal())
+                .status(orderDTO.getStatus())
                 .createdAt(orderDTO.getCreatedAt())
                 .updatedAt(orderDTO.getUpdatedAt())
                 .build();
