@@ -2,6 +2,7 @@ package br.com.sinuqueiros.restaurant.controllers.order.converters;
 
 import br.com.sinuqueiros.restaurant.controllers.order.requests.ItemRequest;
 import br.com.sinuqueiros.restaurant.controllers.order.requests.OrderRequest;
+import br.com.sinuqueiros.restaurant.controllers.order.requests.UpdateOrderRequest;
 import br.com.sinuqueiros.restaurant.controllers.order.responses.ItemResponse;
 import br.com.sinuqueiros.restaurant.controllers.order.responses.OrderResponse;
 import br.com.sinuqueiros.restaurant.services.item.dto.ItemDTO;
@@ -43,5 +44,11 @@ public class OrderControllerConverter {
 
     public static List<OrderResponse> convertFromOrderDTOListToOrderResponseList(final List<OrderDTO> orderDTO) {
         return orderDTO.stream().map(OrderControllerConverter::convertFromOrderDTOToOrderResponse).toList();
+    }
+
+    public static OrderDTO convertFromUpdateOrderRequestToOrderDTO(final UpdateOrderRequest updateOrderRequest) {
+        return OrderDTO.builder()
+                .items(convertFromItemRequestListToItemDTOList(updateOrderRequest.items()))
+                .build();
     }
 }

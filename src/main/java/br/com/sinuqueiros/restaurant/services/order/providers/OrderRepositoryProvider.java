@@ -25,7 +25,8 @@ public class OrderRepositoryProvider {
 
     public OrderDTO save(final OrderDTO orderDTO) {
         final var orderEntity = convertOrderDTOToOrderEntity(orderDTO);
-        return convertOrderEntityToOrderDTO(orderRepository.save(orderEntity));
+        final var saved = orderRepository.save(orderEntity);
+        return convertOrderEntityToOrderDTO(saved);
     }
 
     public Optional<OrderDTO> findById(final Long id) {

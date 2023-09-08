@@ -13,11 +13,10 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @Getter
 @Builder
+@Setter
 public class ItemDTO {
     private Long id;
     private Integer quantity;
-    @Setter
     private BigDecimal subTotal;
-    @Setter
     private ProductDTO product;
 }

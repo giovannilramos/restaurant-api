@@ -1,5 +1,6 @@
 package br.com.sinuqueiros.restaurant.config.cache;
 
+import br.com.sinuqueiros.restaurant.enums.OrderStatusEnum;
 import br.com.sinuqueiros.restaurant.services.order.providers.OrderRepositoryProvider;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +13,10 @@ public class OrderListLoadItems extends OrderListCache {
 
     @PostConstruct
     public void loadOrderListItems() {
-        final var orderRepositoryProviderFindAll = orderRepositoryProvider.findAll();
+        final var orderRepositoryProviderFindAll = orderRepositoryProvider.findAll()
+                .stream()
+                .filter(orderDTO -> orderDTO.getStatus().equals(OrderStatusEnum.PREPARING) || orderDTO.getStatus().equals(OrderStatusEnum.REQUESTED))
+                .toList();
         orderDTOList.addAll(orderRepositoryProviderFindAll);
     }
 }

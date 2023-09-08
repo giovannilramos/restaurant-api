@@ -9,6 +9,8 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Optional;
 
+import static br.com.sinuqueiros.restaurant.services.item.converters.ItemServiceConverter.convertItemDTOToItemEntity;
+
 @Component
 @RequiredArgsConstructor
 public class ItemRepositoryProvider {
@@ -24,5 +26,9 @@ public class ItemRepositoryProvider {
     public Optional<ItemDTO> findById(final Long id) {
         final var itemEntity = itemRepository.findById(id);
         return itemEntity.map(ItemServiceConverter::convertItemEntityToItemDTO);
+    }
+
+    public void delete(final ItemDTO itemDTO) {
+        itemRepository.delete(convertItemDTOToItemEntity(itemDTO));
     }
 }
