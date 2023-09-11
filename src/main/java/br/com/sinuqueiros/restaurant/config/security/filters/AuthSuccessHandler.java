@@ -36,7 +36,7 @@ public class AuthSuccessHandler {
     public String generateToken(final User userDetails) {
         final var user = userRepository.findByUsername(userDetails.getUsername()).orElseThrow(() -> new UsernameNotFoundException("Username not found"));
         return JWT.create()
-                .withIssuer("API Store")
+                .withIssuer("API Restaurant")
                 .withSubject(user.getUsername())
                 .withExpiresAt(Instant.ofEpochMilli(ZonedDateTime.now(ZoneId.of("America/Sao_Paulo")).toInstant().toEpochMilli() + expTime))
                 .sign(Algorithm.HMAC256(secret));
