@@ -48,7 +48,7 @@ public class AuthSuccessHandler {
             return null;
         }
         final var email = JWT.require(Algorithm.HMAC256(secret))
-                .withIssuer("API Store")
+                .withIssuer("API Restaurant")
                 .build()
                 .verify(token.replace(TOKEN_PREFIX, ""))
                 .getSubject();
