@@ -4,6 +4,7 @@ import br.com.sinuqueiros.restaurant.entities.ProductEntity;
 import br.com.sinuqueiros.restaurant.services.product.dto.ProductDTO;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import org.springframework.data.domain.Page;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ProductServiceConverter {
@@ -28,4 +29,9 @@ public class ProductServiceConverter {
                 .price(productEntity.getPrice())
                 .build();
     }
+
+    public static Page<ProductDTO> convertProductEntityListToProductDTOList(final Page<ProductEntity> productEntityList) {
+        return productEntityList.map(ProductServiceConverter::convertProductEntityToProductDTO);
+    }
+
 }
