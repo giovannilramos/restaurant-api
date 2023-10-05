@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 
@@ -16,6 +17,7 @@ public class ProductDTO {
     private String name;
     private String image;
     private String description;
+    @Setter
     private Boolean status;
     private BigDecimal price;
 }
