@@ -38,6 +38,10 @@ public class OrderServiceConverter {
                 .build();
     }
 
+    public static List<OrderEntity> convertOrderDTOListToOrderEntityList(final List<OrderDTO> orderDTOList) {
+        return orderDTOList.stream().map(OrderServiceConverter::convertOrderDTOToOrderEntity).toList();
+    }
+
     public static List<OrderDTO> convertOrderEntityListToOrderDTOList(final List<OrderEntity> orderEntityList) {
         return orderEntityList.stream().map(OrderServiceConverter::convertOrderEntityToOrderDTO).toList();
     }

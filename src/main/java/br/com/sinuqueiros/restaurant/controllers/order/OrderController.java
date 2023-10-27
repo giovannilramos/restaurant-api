@@ -3,11 +3,8 @@ package br.com.sinuqueiros.restaurant.controllers.order;
 import br.com.sinuqueiros.restaurant.controllers.order.requests.OrderRequest;
 import br.com.sinuqueiros.restaurant.controllers.order.requests.UpdateOrderRequest;
 import br.com.sinuqueiros.restaurant.controllers.order.responses.OrderResponse;
-import br.com.sinuqueiros.restaurant.services.order.CancelOrderService;
-import br.com.sinuqueiros.restaurant.services.order.GetOrderByIdService;
-import br.com.sinuqueiros.restaurant.services.order.ListOrderService;
-import br.com.sinuqueiros.restaurant.services.order.RequestOrderService;
-import br.com.sinuqueiros.restaurant.services.order.UpdateOrderItemsService;
+import br.com.sinuqueiros.restaurant.services.order.*;
+import br.com.sinuqueiros.restaurant.services.order.dto.OrderDTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -22,10 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-import static br.com.sinuqueiros.restaurant.controllers.order.converters.OrderControllerConverter.convertFromOrderDTOListToOrderResponseList;
-import static br.com.sinuqueiros.restaurant.controllers.order.converters.OrderControllerConverter.convertFromOrderDTOToOrderResponse;
-import static br.com.sinuqueiros.restaurant.controllers.order.converters.OrderControllerConverter.convertFromOrderRequestToOrderDTO;
-import static br.com.sinuqueiros.restaurant.controllers.order.converters.OrderControllerConverter.convertFromUpdateOrderRequestToOrderDTO;
+import static br.com.sinuqueiros.restaurant.controllers.order.converters.OrderControllerConverter.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -36,6 +30,7 @@ public class OrderController {
     private final RequestOrderService requestOrderService;
     private final CancelOrderService cancelOrderService;
     private final UpdateOrderItemsService updateOrderItemsService;
+    private final CloseOrderService closeOrderService;
 
     @PostMapping
     public ResponseEntity<Void> createOrder(@RequestBody @Valid final OrderRequest orderRequest) {
@@ -65,5 +60,11 @@ public class OrderController {
     public ResponseEntity<Void> cancelOrderById(@PathVariable(name = "id") final Long id) {
         cancelOrderService.cancelOrder(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/close-order/{tableNumber}")
+    public ResponseEntity<Object> closeOrder(@PathVariable(name = "tableNumber") final Integer tableNumber){
+        final var orderDTO = closeOrderService.closeOrder(tableNumber);
+        return ResponseEntity.ok(convertFromOrderDTOToCloseOrderResponse(orderDTO));
     }
 }

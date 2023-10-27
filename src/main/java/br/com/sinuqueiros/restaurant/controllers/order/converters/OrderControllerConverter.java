@@ -51,4 +51,8 @@ public class OrderControllerConverter {
                 .items(convertFromItemRequestListToItemDTOList(updateOrderRequest.items()))
                 .build();
     }
+
+    public static CloseOrderResponse convertFromOrderDTOToCloseOrderResponse(final OrderDTO orderDTO) {
+        return new CloseOrderResponse(orderDTO.getTableNumber(), orderDTO.getItem(), orderDTO.getTotal());
+    }
 }
