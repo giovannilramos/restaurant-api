@@ -1,6 +1,7 @@
 package br.com.sinuqueiros.restaurant.entities;
 
 import br.com.sinuqueiros.restaurant.enums.OrderStatusEnum;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -44,7 +45,7 @@ public class OrderEntity {
     @Enumerated(EnumType.STRING)
     private OrderStatusEnum status;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "order_id")
     private List<ItemEntity> items;
 

@@ -2,9 +2,14 @@ package br.com.sinuqueiros.restaurant.controllers.order;
 
 import br.com.sinuqueiros.restaurant.controllers.order.requests.OrderRequest;
 import br.com.sinuqueiros.restaurant.controllers.order.requests.UpdateOrderRequest;
+import br.com.sinuqueiros.restaurant.controllers.order.responses.CloseOrderResponse;
 import br.com.sinuqueiros.restaurant.controllers.order.responses.OrderResponse;
-import br.com.sinuqueiros.restaurant.services.order.*;
-import br.com.sinuqueiros.restaurant.services.order.dto.OrderDTO;
+import br.com.sinuqueiros.restaurant.services.order.CancelOrderService;
+import br.com.sinuqueiros.restaurant.services.order.CloseOrderService;
+import br.com.sinuqueiros.restaurant.services.order.GetOrderByIdService;
+import br.com.sinuqueiros.restaurant.services.order.ListOrderService;
+import br.com.sinuqueiros.restaurant.services.order.RequestOrderService;
+import br.com.sinuqueiros.restaurant.services.order.UpdateOrderItemsService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +24,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-import static br.com.sinuqueiros.restaurant.controllers.order.converters.OrderControllerConverter.*;
+import static br.com.sinuqueiros.restaurant.controllers.order.converters.OrderControllerConverter.convertFromOrderDTOListToOrderResponseList;
+import static br.com.sinuqueiros.restaurant.controllers.order.converters.OrderControllerConverter.convertFromOrderDTOToCloseOrderResponse;
+import static br.com.sinuqueiros.restaurant.controllers.order.converters.OrderControllerConverter.convertFromOrderDTOToOrderResponse;
+import static br.com.sinuqueiros.restaurant.controllers.order.converters.OrderControllerConverter.convertFromOrderRequestToOrderDTO;
+import static br.com.sinuqueiros.restaurant.controllers.order.converters.OrderControllerConverter.convertFromUpdateOrderRequestToOrderDTO;
 
 @RestController
 @RequiredArgsConstructor
@@ -63,7 +72,7 @@ public class OrderController {
     }
 
     @GetMapping("/close-order/{tableNumber}")
-    public ResponseEntity<Object> closeOrder(@PathVariable(name = "tableNumber") final Integer tableNumber){
+    public ResponseEntity<CloseOrderResponse> closeOrder(@PathVariable(name = "tableNumber") final Integer tableNumber) {
         final var orderDTO = closeOrderService.closeOrder(tableNumber);
         return ResponseEntity.ok(convertFromOrderDTOToCloseOrderResponse(orderDTO));
     }

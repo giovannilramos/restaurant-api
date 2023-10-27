@@ -3,6 +3,7 @@ package br.com.sinuqueiros.restaurant.controllers.order.converters;
 import br.com.sinuqueiros.restaurant.controllers.order.requests.ItemRequest;
 import br.com.sinuqueiros.restaurant.controllers.order.requests.OrderRequest;
 import br.com.sinuqueiros.restaurant.controllers.order.requests.UpdateOrderRequest;
+import br.com.sinuqueiros.restaurant.controllers.order.responses.CloseOrderResponse;
 import br.com.sinuqueiros.restaurant.controllers.order.responses.ItemResponse;
 import br.com.sinuqueiros.restaurant.controllers.order.responses.OrderResponse;
 import br.com.sinuqueiros.restaurant.services.item.dto.ItemDTO;
@@ -53,6 +54,6 @@ public class OrderControllerConverter {
     }
 
     public static CloseOrderResponse convertFromOrderDTOToCloseOrderResponse(final OrderDTO orderDTO) {
-        return new CloseOrderResponse(orderDTO.getTableNumber(), orderDTO.getItem(), orderDTO.getTotal());
+        return new CloseOrderResponse(orderDTO.getTableNumber(), convertFromItemDTOListToItemResponseList(orderDTO.getItems()), orderDTO.getTotal());
     }
 }
