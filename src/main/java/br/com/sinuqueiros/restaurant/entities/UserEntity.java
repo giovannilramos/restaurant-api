@@ -37,6 +37,7 @@ public class UserEntity implements UserDetails {
     private String username;
     @Column(nullable = false)
     private String password;
+    private Integer tableNumber;
 
     @ManyToMany
     @JoinTable(name = "user_roles_table", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
