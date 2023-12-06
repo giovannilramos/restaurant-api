@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,6 +30,7 @@ import static br.com.sinuqueiros.restaurant.controllers.order.converters.OrderCo
 import static br.com.sinuqueiros.restaurant.controllers.order.converters.OrderControllerConverter.convertFromOrderDTOToOrderResponse;
 import static br.com.sinuqueiros.restaurant.controllers.order.converters.OrderControllerConverter.convertFromOrderRequestToOrderDTO;
 import static br.com.sinuqueiros.restaurant.controllers.order.converters.OrderControllerConverter.convertFromUpdateOrderRequestToOrderDTO;
+import static br.com.sinuqueiros.restaurant.services.user.helper.UserHelper.decoderTokenJwt;
 
 @RestController
 @RequiredArgsConstructor
@@ -42,8 +44,9 @@ public class OrderController {
     private final CloseOrderService closeOrderService;
 
     @PostMapping
-    public ResponseEntity<Void> createOrder(@RequestBody @Valid final OrderRequest orderRequest) {
-        requestOrderService.requestOrder(convertFromOrderRequestToOrderDTO(orderRequest));
+    public ResponseEntity<Void> createOrder(@RequestHeader(name = "Authorization") final String jwtToken, @RequestBody @Valid final OrderRequest orderRequest) {
+        final var tableNumber = decoderTokenJwt(jwtToken);
+        requestOrderService.requestOrder(convertFromOrderRequestToOrderDTO(tableNumber, orderRequest));
         return ResponseEntity.noContent().build();
     }
 

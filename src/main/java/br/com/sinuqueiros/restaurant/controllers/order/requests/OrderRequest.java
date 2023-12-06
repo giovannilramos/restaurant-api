@@ -6,5 +6,5 @@ import jakarta.validation.constraints.NotNull;
 
 import java.util.List;
 
-public record OrderRequest(@NotNull @NotEmpty List<@Valid ItemRequest> items, @NotNull Integer tableNumber) {
+public record OrderRequest(@NotNull @NotEmpty List<@Valid ItemRequest> items) {
 }

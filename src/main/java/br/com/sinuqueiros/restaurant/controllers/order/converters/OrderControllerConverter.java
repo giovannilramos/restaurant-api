@@ -19,8 +19,8 @@ import static br.com.sinuqueiros.restaurant.controllers.product.converters.Produ
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class OrderControllerConverter {
 
-    public static OrderDTO convertFromOrderRequestToOrderDTO(final OrderRequest orderRequest) {
-        return OrderDTO.builder().tableNumber(orderRequest.tableNumber()).items(convertFromItemRequestListToItemDTOList(orderRequest.items())).build();
+    public static OrderDTO convertFromOrderRequestToOrderDTO(final Integer tableNumber, final OrderRequest orderRequest) {
+        return OrderDTO.builder().tableNumber(tableNumber).items(convertFromItemRequestListToItemDTOList(orderRequest.items())).build();
     }
 
     public static ItemDTO convertFromItemRequestToItemDTO(final ItemRequest itemRequest) {

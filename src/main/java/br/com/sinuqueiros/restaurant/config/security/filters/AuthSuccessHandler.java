@@ -18,6 +18,7 @@ import br.com.sinuqueiros.restaurant.config.security.service.UserDetailsServiceI
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.HashMap;
 
 import static java.util.Objects.isNull;
 
@@ -35,9 +36,12 @@ public class AuthSuccessHandler {
     @SneakyThrows
     public String generateToken(final User userDetails) {
         final var user = userRepository.findByUsername(userDetails.getUsername()).orElseThrow(() -> new UsernameNotFoundException("Username not found"));
+        final var hashMap = new HashMap<String, Integer>();
+        hashMap.put("tableNumber", user.getTableNumber());
         return JWT.create()
                 .withIssuer("API Restaurant")
                 .withSubject(user.getUsername())
+                .withPayload(hashMap)
                 .withExpiresAt(Instant.ofEpochMilli(ZonedDateTime.now(ZoneId.of("America/Sao_Paulo")).toInstant().toEpochMilli() + expTime))
                 .sign(Algorithm.HMAC256(secret));
     }
@@ -47,15 +51,15 @@ public class AuthSuccessHandler {
         if (isNull(token) || !token.startsWith(TOKEN_PREFIX)) {
             return null;
         }
-        final var email = JWT.require(Algorithm.HMAC256(secret))
+        final var username = JWT.require(Algorithm.HMAC256(secret))
                 .withIssuer("API Restaurant")
                 .build()
                 .verify(token.replace(TOKEN_PREFIX, ""))
                 .getSubject();
-        if (isNull(email) || email.isEmpty()) {
+        if (isNull(username) || username.isEmpty()) {
             return null;
         }
-        final var userDetails = userDetailsService.loadUserByUsername(email);
+        final var userDetails = userDetailsService.loadUserByUsername(username);
 
         return new UsernamePasswordAuthenticationToken(userDetails.getUsername(), null, userDetails.getAuthorities());
     }
