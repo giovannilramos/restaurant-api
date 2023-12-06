@@ -12,6 +12,7 @@ import java.util.Optional;
 
 import static br.com.sinuqueiros.restaurant.services.product.converters.ProductServiceConverter.convertProductDTOToProductEntity;
 import static br.com.sinuqueiros.restaurant.services.product.converters.ProductServiceConverter.convertProductEntityListToProductDTOList;
+import static br.com.sinuqueiros.restaurant.services.product.converters.ProductServiceConverter.convertProductEntityToProductDTO;
 
 @Component
 @RequiredArgsConstructor
@@ -23,9 +24,9 @@ public class ProductRepositoryProvider {
         return productEntityOptional.map(ProductServiceConverter::convertProductEntityToProductDTO);
     }
 
-    public void save(final ProductDTO productDTO) {
+    public ProductDTO save(final ProductDTO productDTO) {
         final var productEntity = convertProductDTOToProductEntity(productDTO);
-        productRepository.save(productEntity);
+        return convertProductEntityToProductDTO(productRepository.save(productEntity));
     }
 
     public Page<ProductDTO> findAll(final Pageable pageable) {

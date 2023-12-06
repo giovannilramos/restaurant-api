@@ -1,11 +1,13 @@
 package br.com.sinuqueiros.restaurant.controllers.product;
 
 import br.com.sinuqueiros.restaurant.controllers.product.requests.ProductRequest;
+import br.com.sinuqueiros.restaurant.controllers.product.requests.UpdateProductRequest;
 import br.com.sinuqueiros.restaurant.controllers.product.responses.ProductResponse;
 import br.com.sinuqueiros.restaurant.services.product.CreateProductService;
 import br.com.sinuqueiros.restaurant.services.product.DeleteProductService;
 import br.com.sinuqueiros.restaurant.services.product.GetProductByIdService;
 import br.com.sinuqueiros.restaurant.services.product.ListProductService;
+import br.com.sinuqueiros.restaurant.services.product.UpdateProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -26,6 +28,7 @@ public class ProductController {
     private final ListProductService listProductService;
     private final GetProductByIdService getProductByIdService;
     private final DeleteProductService deleteProductService;
+    private final UpdateProductService updateProductService;
 
     @PostMapping
     public ResponseEntity<Void> createProduct(@RequestBody @Valid final ProductRequest productRequest) {
@@ -48,6 +51,12 @@ public class ProductController {
     @PatchMapping("/{id}")
     public ResponseEntity<ProductResponse> deleteProductById(@PathVariable(name = "id") final Long id) {
         final var productDto = deleteProductService.update(id);
+        return ResponseEntity.ok(convertFromProductDTOToProductResponse(productDto));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ProductResponse> updateProductById(@PathVariable(name = "id") final Long id, @RequestBody final UpdateProductRequest updateProductRequest) {
+        final var productDto = updateProductService.update(id, convertFromUpdateProductRequestToProductDTO(updateProductRequest));
         return ResponseEntity.ok(convertFromProductDTOToProductResponse(productDto));
     }
 }
