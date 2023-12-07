@@ -1,6 +1,7 @@
 package br.com.sinuqueiros.restaurant.controllers.product.converters;
 
 import br.com.sinuqueiros.restaurant.controllers.product.requests.ProductRequest;
+import br.com.sinuqueiros.restaurant.controllers.product.requests.UpdateProductRequest;
 import br.com.sinuqueiros.restaurant.controllers.product.responses.ProductResponse;
 import br.com.sinuqueiros.restaurant.services.product.dto.ProductDTO;
 import lombok.AccessLevel;
@@ -26,5 +27,14 @@ public class ProductControllerConverter {
 
     public static Page<ProductResponse> convertFromProductDTOListToProductResponseList(final Page<ProductDTO> productDTOList) {
         return productDTOList.map(ProductControllerConverter::convertFromProductDTOToProductResponse);
+    }
+
+    public static ProductDTO convertFromUpdateProductRequestToProductDTO(final UpdateProductRequest updateProductRequest) {
+        return ProductDTO.builder()
+                .name(updateProductRequest.name())
+                .image(updateProductRequest.image())
+                .description(updateProductRequest.description())
+                .price(updateProductRequest.price())
+                .build();
     }
 }
