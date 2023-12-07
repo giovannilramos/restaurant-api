@@ -27,6 +27,7 @@ public class ProductServiceConverter {
                 .description(productEntity.getDescription())
                 .status(productEntity.getStatus())
                 .price(productEntity.getPrice())
+                .category(productEntity.getCategory())
                 .build();
     }
 

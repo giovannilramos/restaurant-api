@@ -22,7 +22,7 @@ public class ProductControllerConverter {
     }
 
     public static ProductResponse convertFromProductDTOToProductResponse(final ProductDTO productDTO) {
-        return new ProductResponse(productDTO.getId(), productDTO.getDescription(), productDTO.getImage(), productDTO.getName(), productDTO.getPrice(), productDTO.getStatus());
+        return new ProductResponse(productDTO.getId(), productDTO.getDescription(), productDTO.getImage(), productDTO.getName(), productDTO.getPrice(), productDTO.getStatus(), productDTO.getCategory());
     }
 
     public static Page<ProductResponse> convertFromProductDTOListToProductResponseList(final Page<ProductDTO> productDTOList) {

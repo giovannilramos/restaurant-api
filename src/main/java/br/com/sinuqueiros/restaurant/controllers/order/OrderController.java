@@ -10,6 +10,7 @@ import br.com.sinuqueiros.restaurant.services.order.GetOrderByIdService;
 import br.com.sinuqueiros.restaurant.services.order.ListOrderService;
 import br.com.sinuqueiros.restaurant.services.order.RequestOrderService;
 import br.com.sinuqueiros.restaurant.services.order.UpdateOrderItemsService;
+import br.com.sinuqueiros.restaurant.services.order.UpdateOrderStatusService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -41,6 +42,7 @@ public class OrderController {
     private final RequestOrderService requestOrderService;
     private final CancelOrderService cancelOrderService;
     private final UpdateOrderItemsService updateOrderItemsService;
+    private final UpdateOrderStatusService updateOrderStatusService;
     private final CloseOrderService closeOrderService;
 
     @PostMapping
@@ -66,6 +68,12 @@ public class OrderController {
     public ResponseEntity<OrderResponse> updateOrderItems(@PathVariable(name = "id") final Long id, @RequestBody final UpdateOrderRequest updateOrderRequest) {
         final var orderDTO = updateOrderItemsService.update(id, convertFromUpdateOrderRequestToOrderDTO(updateOrderRequest));
         return ResponseEntity.ok(convertFromOrderDTOToOrderResponse(orderDTO));
+    }
+
+    @GetMapping("/{id}/status")
+    public ResponseEntity<OrderResponse> updateOrderStatus(@PathVariable(name = "id") final Long id) {
+        updateOrderStatusService.updateStatus(id);
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}")

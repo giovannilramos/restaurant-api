@@ -17,6 +17,7 @@ public class ProductDTO {
     private String name;
     private String image;
     private String description;
+    private String category;
     @Setter
     private Boolean status;
     private BigDecimal price;
