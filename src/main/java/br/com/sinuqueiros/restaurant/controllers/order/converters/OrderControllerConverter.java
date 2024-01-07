@@ -24,7 +24,7 @@ public class OrderControllerConverter {
     }
 
     public static ItemDTO convertFromItemRequestToItemDTO(final ItemRequest itemRequest) {
-        return ItemDTO.builder().quantity(itemRequest.quantity()).product(ProductDTO.builder().id(itemRequest.productId()).build()).build();
+        return ItemDTO.builder().quantity(itemRequest.quantity()).product(ProductDTO.builder().id(itemRequest.productId()).build()).obs(itemRequest.obs()).build();
     }
 
     public static List<ItemDTO> convertFromItemRequestListToItemDTOList(final List<ItemRequest> itemRequestList) {
@@ -32,7 +32,7 @@ public class OrderControllerConverter {
     }
 
     public static ItemResponse convertFromItemDTOToItemResponse(final ItemDTO itemDTO) {
-        return new ItemResponse(itemDTO.getId(), itemDTO.getQuantity(), itemDTO.getSubTotal(), convertFromProductDTOToProductResponse(itemDTO.getProduct()));
+        return new ItemResponse(itemDTO.getId(), itemDTO.getQuantity(), itemDTO.getSubTotal(), itemDTO.getObs(), convertFromProductDTOToProductResponse(itemDTO.getProduct()));
     }
 
     public static List<ItemResponse> convertFromItemDTOListToItemResponseList(final List<ItemDTO> itemDTOList) {

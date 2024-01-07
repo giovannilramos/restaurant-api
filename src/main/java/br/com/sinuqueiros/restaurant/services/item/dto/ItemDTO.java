@@ -19,4 +19,5 @@ public class ItemDTO {
     private Integer quantity;
     private BigDecimal subTotal;
     private ProductDTO product;
+    private String obs;
 }

@@ -31,6 +31,8 @@ public class ItemEntity {
     @Column(nullable = false)
     private BigDecimal subTotal;
 
+    private String obs;
+
     @ManyToOne
     private ProductEntity product;
 }

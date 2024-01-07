@@ -4,5 +4,5 @@ import br.com.sinuqueiros.restaurant.controllers.product.responses.ProductRespon
 
 import java.math.BigDecimal;
 
-public record ItemResponse(Long id, Integer quantity, BigDecimal subTotal, ProductResponse productResponse) {
+public record ItemResponse(Long id, Integer quantity, BigDecimal subTotal, String obs, ProductResponse productResponse) {
 }

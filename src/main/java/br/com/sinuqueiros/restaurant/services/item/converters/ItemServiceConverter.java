@@ -16,6 +16,7 @@ public class ItemServiceConverter {
                 .quantity(itemDTO.getQuantity())
                 .subTotal(itemDTO.getSubTotal())
                 .product(convertProductDTOToProductEntity(itemDTO.getProduct()))
+                .obs(itemDTO.getObs())
                 .build();
     }
 
@@ -25,6 +26,7 @@ public class ItemServiceConverter {
                 .quantity(itemEntity.getQuantity())
                 .subTotal(itemEntity.getSubTotal())
                 .product(convertProductEntityToProductDTO(itemEntity.getProduct()))
+                .obs(itemEntity.getObs())
                 .build();
     }
 }
