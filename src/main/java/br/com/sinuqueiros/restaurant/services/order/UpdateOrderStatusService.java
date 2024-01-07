@@ -7,6 +7,7 @@ import br.com.sinuqueiros.restaurant.services.order.providers.OrderRepositoryPro
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import static br.com.sinuqueiros.restaurant.config.cache.OrderListCache.getOrderResponseList;
 import static br.com.sinuqueiros.restaurant.config.cache.OrderListCache.updateOrderResponseItem;
@@ -17,19 +18,19 @@ public class UpdateOrderStatusService implements SendToWebsocket {
     private final OrderRepositoryProvider orderRepositoryProvider;
     private final SimpMessagingTemplate messagingTemplate;
 
-
+    @Transactional
     public void updateStatus(final Long id) {
         final var orderDTO = orderRepositoryProvider.findById(id).orElseThrow(() -> new NotFoundException("Order not found"));
         if (orderDTO.getStatus().equals(OrderStatusEnum.REQUESTED)) {
             orderDTO.setStatus(OrderStatusEnum.PREPARING);
-            final var orderDTOSaved = orderRepositoryProvider.save(orderDTO);
-            sendUpdatedListToWebsocket(orderDTOSaved);
+            orderRepositoryProvider.updateStatus(orderDTO);
+            sendUpdatedListToWebsocket(orderDTO);
             return;
         }
         if (orderDTO.getStatus().equals(OrderStatusEnum.PREPARING)) {
             orderDTO.setStatus(OrderStatusEnum.FINISHED);
-            final var orderDTOSaved = orderRepositoryProvider.save(orderDTO);
-            sendUpdatedListToWebsocket(orderDTOSaved);
+            orderRepositoryProvider.updateStatus(orderDTO);
+            sendUpdatedListToWebsocket(orderDTO);
         }
     }
 

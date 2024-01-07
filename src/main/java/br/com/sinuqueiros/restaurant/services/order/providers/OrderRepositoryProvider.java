@@ -1,6 +1,5 @@
 package br.com.sinuqueiros.restaurant.services.order.providers;
 
-import br.com.sinuqueiros.restaurant.entities.OrderEntity;
 import br.com.sinuqueiros.restaurant.repositories.OrderRepository;
 import br.com.sinuqueiros.restaurant.services.order.dto.OrderDTO;
 import lombok.RequiredArgsConstructor;
@@ -9,11 +8,11 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Optional;
 
+import static br.com.sinuqueiros.restaurant.services.order.converters.OrderServiceConverter.convertOrderDTOListToOrderEntityList;
 import static br.com.sinuqueiros.restaurant.services.order.converters.OrderServiceConverter.convertOrderDTOToOrderEntity;
 import static br.com.sinuqueiros.restaurant.services.order.converters.OrderServiceConverter.convertOrderEntityListToOrderDTOList;
 import static br.com.sinuqueiros.restaurant.services.order.converters.OrderServiceConverter.convertOrderEntityOptionalToOrderDTOOptional;
 import static br.com.sinuqueiros.restaurant.services.order.converters.OrderServiceConverter.convertOrderEntityToOrderDTO;
-import static br.com.sinuqueiros.restaurant.services.order.converters.OrderServiceConverter.convertOrderDTOListToOrderEntityList;
 
 @Component
 @RequiredArgsConstructor
@@ -44,5 +43,9 @@ public class OrderRepositoryProvider {
     public void deleteAll(final List<OrderDTO> orderDTO) {
         final var orderEntityList = convertOrderDTOListToOrderEntityList(orderDTO);
         orderRepository.deleteAll(orderEntityList);
+    }
+
+    public void updateStatus(final OrderDTO orderDTO) {
+        orderRepository.updateStatus(orderDTO.getId(), orderDTO.getStatus());
     }
 }

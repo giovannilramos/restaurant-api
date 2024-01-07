@@ -70,7 +70,7 @@ public class OrderController {
         return ResponseEntity.ok(convertFromOrderDTOToOrderResponse(orderDTO));
     }
 
-    @GetMapping("/{id}/status")
+    @PatchMapping("/{id}/status")
     public ResponseEntity<OrderResponse> updateOrderStatus(@PathVariable(name = "id") final Long id) {
         updateOrderStatusService.updateStatus(id);
         return ResponseEntity.noContent().build();
@@ -82,8 +82,9 @@ public class OrderController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/close-order/{tableNumber}")
-    public ResponseEntity<CloseOrderResponse> closeOrder(@PathVariable(name = "tableNumber") final Integer tableNumber) {
+    @GetMapping("/close-order")
+    public ResponseEntity<CloseOrderResponse> closeOrder(@RequestHeader(name = "Authorization") final String jwtToken) {
+        final var tableNumber = decoderTokenJwt(jwtToken);
         final var orderDTO = closeOrderService.closeOrder(tableNumber);
         return ResponseEntity.ok(convertFromOrderDTOToCloseOrderResponse(orderDTO));
     }
