@@ -22,6 +22,7 @@ public class WebSecurityConfig {
     @SneakyThrows
     public SecurityFilterChain securityWebFilterChain(final HttpSecurity httpSecurity) {
         httpSecurity
+                .cors(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry ->
                         authorizationManagerRequestMatcherRegistry
