@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 public class LoginService {
     private final AuthenticationManager authenticationManage;
     private final AuthSuccessHandler authSuccessHandler;
+
     public LoginDTO login(final LoginDTO loginDTO) {
         try {
             final var authenticationToken = new UsernamePasswordAuthenticationToken(loginDTO.getUsername(), loginDTO.getPassword());
@@ -22,7 +23,7 @@ public class LoginService {
             loginDTO.setToken(tokenJwt);
             return loginDTO;
         } catch (final Exception e) {
-            throw new NotFoundException("User not found, review the information and try again");
+            throw new NotFoundException("Login not found, review the information and try again");
         }
     }
 }

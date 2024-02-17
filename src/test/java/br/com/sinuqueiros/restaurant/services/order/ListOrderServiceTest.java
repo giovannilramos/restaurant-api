@@ -26,7 +26,7 @@ class ListOrderServiceTest {
         final var orderDTOMock = orderDTOMock();
         when(orderRepositoryProvider.findAll()).thenReturn(List.of(orderDTOMock));
         final var orderDTOList = listOrderService.listOrder();
-        final var orderDTO = orderDTOList.get(0);
+        final var orderDTO = orderDTOList.getFirst();
         assertEquals(orderDTOMock.getId(), orderDTO.getId());
     }
 }
