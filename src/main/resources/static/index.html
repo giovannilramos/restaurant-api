@@ -1,23 +1,23 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <title>Hello WebSocket</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.2/sockjs.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
-</head>
-<body>
+<!--<!DOCTYPE html>-->
+<!--<html lang="pt-BR">-->
+<!--<head>-->
+<!--    <title>Hello WebSocket</title>-->
+<!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.2/sockjs.min.js"></script>-->
+<!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>-->
+<!--</head>-->
+<!--<body>-->
 
-<script>
+<!--<script>-->
 
-    window.addEventListener('load', () => {
-        const socket = new SockJS('http://localhost:8080/ws')
-        const stompClient = Stomp.over(socket)
-        stompClient.connect({}, () => {
-            stompClient.subscribe('/topic/order', (orderList) => {
-                console.log('orderList: ' + orderList.body)
-            });
-        });
-    })
-</script>
-</body>
-</html>
+<!--    window.addEventListener('load', () => {-->
+<!--        const socket = new SockJS('http://localhost:8080/ws')-->
+<!--        const stompClient = Stomp.over(socket)-->
+<!--        stompClient.connect({}, () => {-->
+<!--            stompClient.subscribe('/topic/order', (orderList) => {-->
+<!--                console.log('orderList: ' + orderList.body)-->
+<!--            });-->
+<!--        });-->
+<!--    })-->
+<!--</script>-->
+<!--</body>-->
+<!--</html>-->
