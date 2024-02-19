@@ -1,5 +1,6 @@
 package br.com.sinuqueiros.restaurant.services.product.dto;
 
+import br.com.sinuqueiros.restaurant.enums.CategoryEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -17,7 +18,7 @@ public class ProductDTO {
     private String name;
     private String image;
     private String description;
-    private String category;
+    private CategoryEnum category;
     @Setter
     private Boolean status;
     private BigDecimal price;

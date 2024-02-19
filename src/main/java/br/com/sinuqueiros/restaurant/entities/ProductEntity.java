@@ -1,7 +1,10 @@
 package br.com.sinuqueiros.restaurant.entities;
 
+import br.com.sinuqueiros.restaurant.enums.CategoryEnum;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -34,7 +37,8 @@ public class ProductEntity {
     private String description;
 
     @Column(nullable = false)
-    private String category;
+    @Enumerated(EnumType.STRING)
+    private CategoryEnum category;
 
     @Column(nullable = false)
     private Boolean status;

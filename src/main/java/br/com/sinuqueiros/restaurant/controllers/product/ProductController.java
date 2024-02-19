@@ -3,11 +3,13 @@ package br.com.sinuqueiros.restaurant.controllers.product;
 import br.com.sinuqueiros.restaurant.controllers.product.requests.ProductRequest;
 import br.com.sinuqueiros.restaurant.controllers.product.requests.UpdateProductRequest;
 import br.com.sinuqueiros.restaurant.controllers.product.responses.ProductResponse;
+import br.com.sinuqueiros.restaurant.enums.CategoryEnum;
 import br.com.sinuqueiros.restaurant.services.product.CreateProductService;
 import br.com.sinuqueiros.restaurant.services.product.DeleteProductService;
 import br.com.sinuqueiros.restaurant.services.product.GetProductByIdService;
 import br.com.sinuqueiros.restaurant.services.product.ListProductService;
 import br.com.sinuqueiros.restaurant.services.product.UpdateProductService;
+import br.com.sinuqueiros.restaurant.services.product.dto.ProductDTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -37,8 +39,12 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<ProductResponse>> listProduct(@PageableDefault(sort = "name", direction = Sort.Direction.DESC) final Pageable pageable) {
-        final var productDtoList = listProductService.listProduct(pageable);
+    public ResponseEntity<Page<ProductResponse>> listProduct(
+            @PageableDefault(sort = "name", direction = Sort.Direction.DESC) final Pageable pageable,
+            @RequestParam(name = "category", required = false) final CategoryEnum category
+    ) {
+        final var productDTO = ProductDTO.builder().category(category).build();
+        final var productDtoList = listProductService.listProduct(pageable, productDTO);
         return ResponseEntity.ok(convertFromProductDTOListToProductResponseList(productDtoList));
     }
 

@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 public class ListProductService {
     private final ProductRepositoryProvider productRepositoryProvider;
 
-    public Page<ProductDTO> listProduct(final Pageable pageable) {
-        return productRepositoryProvider.findAll(pageable);
+    public Page<ProductDTO> listProduct(final Pageable pageable, final ProductDTO productDTO) {
+        return productRepositoryProvider.findAll(pageable, productDTO);
     }
 }

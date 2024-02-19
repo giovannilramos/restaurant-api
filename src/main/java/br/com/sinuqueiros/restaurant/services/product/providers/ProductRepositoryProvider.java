@@ -3,6 +3,7 @@ package br.com.sinuqueiros.restaurant.services.product.providers;
 import br.com.sinuqueiros.restaurant.repositories.ProductRepository;
 import br.com.sinuqueiros.restaurant.services.product.converters.ProductServiceConverter;
 import br.com.sinuqueiros.restaurant.services.product.dto.ProductDTO;
+import br.com.sinuqueiros.restaurant.services.product.specifications.ProductSpecification;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,6 +18,7 @@ import static br.com.sinuqueiros.restaurant.services.product.converters.ProductS
 @Component
 @RequiredArgsConstructor
 public class ProductRepositoryProvider {
+    private final ProductSpecification productSpecification;
     private final ProductRepository productRepository;
 
     public Optional<ProductDTO> findById(final Long id) {
@@ -29,8 +31,8 @@ public class ProductRepositoryProvider {
         return convertProductEntityToProductDTO(productRepository.save(productEntity));
     }
 
-    public Page<ProductDTO> findAll(final Pageable pageable) {
-        final var productEntityList = productRepository.findAll(pageable);
+    public Page<ProductDTO> findAll(final Pageable pageable, final ProductDTO productDTO) {
+        final var productEntityList = productRepository.findAll(productSpecification.toPredicate(productDTO), pageable);
         return convertProductEntityListToProductDTOList(productEntityList);
     }
 
