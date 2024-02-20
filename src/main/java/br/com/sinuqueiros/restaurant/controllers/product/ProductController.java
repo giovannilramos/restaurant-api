@@ -40,7 +40,7 @@ public class ProductController {
 
     @GetMapping
     public ResponseEntity<Page<ProductResponse>> listProduct(
-            @PageableDefault(sort = "name", direction = Sort.Direction.DESC) final Pageable pageable,
+            @PageableDefault(sort = "category", direction = Sort.Direction.ASC) final Pageable pageable,
             @RequestParam(name = "category", required = false) final CategoryEnum category
     ) {
         final var productDTO = ProductDTO.builder().category(category).build();
