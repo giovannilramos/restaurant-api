@@ -28,6 +28,7 @@ public class UserControllerConverter {
                 .tableNumber(createUserRequest.tableNumber())
                 .username(createUserRequest.username())
                 .password(new BCryptPasswordEncoder().encode(createUserRequest.password()))
+                .roles(createUserRequest.role())
                 .build();
     }
 

@@ -12,11 +12,6 @@ public class CreateUserService {
     private final UserRepositoryProvider userRepositoryProvider;
 
     public UserDTO createUser(final UserDTO userDTO) {
-        final var save = userRepositoryProvider.save(userDTO);
-        return UserDTO.builder()
-                .username(save.getUsername())
-                .tableNumber(save.getTableNumber())
-                .createdAt(save.getCreatedAt())
-                .build();
+        return userRepositoryProvider.save(userDTO);
     }
 }

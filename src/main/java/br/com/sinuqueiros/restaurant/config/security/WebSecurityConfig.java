@@ -14,6 +14,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
+
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -27,10 +29,26 @@ public class WebSecurityConfig {
                 .cors(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry ->
-                        authorizationManagerRequestMatcherRegistry
-                                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                                .requestMatchers("/v1/user/**").permitAll()
-                                .anyRequest().authenticated()
+                        {
+                            final var productRoutePattern = "/v1/product/**";
+                            final var orderRoutePattern = "/v1/order/**";
+                            authorizationManagerRequestMatcherRegistry
+                                    .requestMatchers(
+                                            antMatcher(HttpMethod.GET, "/v1/product"),
+                                            antMatcher(HttpMethod.GET, productRoutePattern),
+                                            antMatcher(HttpMethod.GET, orderRoutePattern),
+                                            antMatcher(HttpMethod.POST, "/v1/order")
+                                    ).hasRole("USER")
+                                    .requestMatchers(
+                                            antMatcher(HttpMethod.POST, "/v1/product"),
+                                            antMatcher(HttpMethod.PATCH, productRoutePattern),
+                                            antMatcher(HttpMethod.PUT, productRoutePattern),
+                                            antMatcher("/v1/user/create")
+                                    ).hasRole("ADMIN")
+                                    .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                                    .requestMatchers("/v1/user/**").permitAll()
+                                    .anyRequest().authenticated();
+                        }
                 ).addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
                 .httpBasic(Customizer.withDefaults())
                 .exceptionHandling(Customizer.withDefaults())
