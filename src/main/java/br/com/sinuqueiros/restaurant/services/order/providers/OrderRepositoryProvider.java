@@ -1,6 +1,7 @@
 package br.com.sinuqueiros.restaurant.services.order.providers;
 
 import br.com.sinuqueiros.restaurant.repositories.OrderRepository;
+import br.com.sinuqueiros.restaurant.services.order.converters.OrderServiceConverter;
 import br.com.sinuqueiros.restaurant.services.order.dto.OrderDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -11,7 +12,6 @@ import java.util.Optional;
 import static br.com.sinuqueiros.restaurant.services.order.converters.OrderServiceConverter.convertOrderDTOListToOrderEntityList;
 import static br.com.sinuqueiros.restaurant.services.order.converters.OrderServiceConverter.convertOrderDTOToOrderEntity;
 import static br.com.sinuqueiros.restaurant.services.order.converters.OrderServiceConverter.convertOrderEntityListToOrderDTOList;
-import static br.com.sinuqueiros.restaurant.services.order.converters.OrderServiceConverter.convertOrderEntityOptionalToOrderDTOOptional;
 import static br.com.sinuqueiros.restaurant.services.order.converters.OrderServiceConverter.convertOrderEntityToOrderDTO;
 
 @Component
@@ -31,8 +31,7 @@ public class OrderRepositoryProvider {
     }
 
     public Optional<OrderDTO> findById(final Long id) {
-        final var orderEntityOptional = orderRepository.findById(id).orElse(null);
-        return convertOrderEntityOptionalToOrderDTOOptional(orderEntityOptional);
+        return orderRepository.findById(id).map(OrderServiceConverter::convertOrderEntityToOrderDTO);
     }
 
     public List<OrderDTO> findAllByTableNumber(final Integer tableNumber) {
