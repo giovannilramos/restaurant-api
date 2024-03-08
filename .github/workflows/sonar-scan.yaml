@@ -35,7 +35,6 @@ jobs:
       - name: Check Quality Gate status
         run: |
           PR_NUMBER=$(echo "${{ github.event.pull_request.url }}" | awk -F '/' '{print $NF}')
-          echo "https://sonarcloud.io/api/qualitygates/project_status?projectKey=giovannilramos_restaurant-api&pullRequest=$PR_NUMBER"
           QUALITY_GATE_STATUS=$(curl -s "https://sonarcloud.io/api/qualitygates/project_status?projectKey=giovannilramos_restaurant-api&pullRequest=$PR_NUMBER" | jq -r '.projectStatus.status')
 
           if [ "$QUALITY_GATE_STATUS" != "OK" ]; then
