@@ -18,7 +18,6 @@ public class CancelOrderService implements SendToWebsocket {
     private final SimpMessagingTemplate messagingTemplate;
 
     public void cancelOrder(final Long id) {
-        orderRepositoryProvider.findById(id).get();
         orderRepositoryProvider.findById(id).ifPresentOrElse(orderDTO -> {
             orderDTO.setStatus(OrderStatusEnum.CANCELLED);
             orderRepositoryProvider.save(orderDTO);
