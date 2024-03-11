@@ -7,11 +7,17 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static java.util.Objects.nonNull;
+
 @Service
 @RequiredArgsConstructor
 public class ListOrderService {
     private final OrderRepositoryProvider orderRepositoryProvider;
-    public List<OrderDTO> listOrder() {
+    public List<OrderDTO> listOrder(final Integer tableNumber) {
+        if (nonNull(tableNumber)) {
+            return orderRepositoryProvider.findAllByTableNumber(tableNumber);
+        }
+
         return orderRepositoryProvider.findAll();
     }
 }

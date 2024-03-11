@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -53,8 +54,10 @@ public class OrderController {
     }
 
     @GetMapping
-    public ResponseEntity<List<OrderResponse>> listOrder() {
-        final var orderDTOList = listOrderService.listOrder();
+    public ResponseEntity<List<OrderResponse>> listOrder(
+            @RequestParam(name = "tableNumber", required = false) final Integer tableNumber
+    ) {
+        final var orderDTOList = listOrderService.listOrder(tableNumber);
         return ResponseEntity.ok(convertFromOrderDTOListToOrderResponseList(orderDTOList));
     }
 
