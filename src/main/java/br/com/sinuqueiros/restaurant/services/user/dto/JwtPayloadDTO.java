@@ -13,5 +13,6 @@ public class JwtPayloadDTO {
     private String sub;
     private String iss;
     private Integer tableNumber;
+    private String roles;
     private String exp;
 }

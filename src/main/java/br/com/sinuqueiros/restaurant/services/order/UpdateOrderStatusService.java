@@ -20,7 +20,9 @@ public class UpdateOrderStatusService implements SendToWebsocket {
 
     @Transactional
     public void updateStatus(final Long id) {
-        final var orderDTO = orderRepositoryProvider.findById(id).orElseThrow(() -> new NotFoundException("Order not found"));
+        final var orderDTO = orderRepositoryProvider.findById(id)
+                .orElseThrow(() -> new NotFoundException("Order not found"));
+
         if (orderDTO.getStatus().equals(OrderStatusEnum.REQUESTED)) {
             orderDTO.setStatus(OrderStatusEnum.PREPARING);
             orderRepositoryProvider.updateStatus(orderDTO);

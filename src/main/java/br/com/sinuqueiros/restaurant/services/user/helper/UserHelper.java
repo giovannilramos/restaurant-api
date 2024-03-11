@@ -20,6 +20,7 @@ public class UserHelper {
             final var identification = new ObjectMapper().readValue(payload, JwtPayloadDTO.class);
             return identification.getTableNumber();
         } catch (final Exception e) {
+            log.error(e.getMessage());
             throw new UnauthorizedException("User unauthorized");
         }
     }
