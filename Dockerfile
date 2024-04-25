@@ -1,18 +1,21 @@
-FROM ubuntu:22.04 AS build
+FROM public.ecr.aws/docker/library/eclipse-temurin:21.0.2_13-jre-alpine
 
-RUN apt-get update &&  \
-    apt-get install openjdk-21-jdk -y  &&  \
-    apt-get clean \
+RUN apk add --no-cache dumb-init && \
+    rm -rf /var/cache/apk/*
 
-COPY . .
+ENV JAVA_USER javauser
+ENV WORKDIR_HOME /app
 
-RUN apt-get install maven -y &&  \
-    mvn clean install &&  \
-    apt-get clean
+RUN mkdir ${WORKDIR_HOME} &&\
+    addgroup --system ${JAVA_USER} && adduser -S -s /bin/false -G ${JAVA_USER} ${JAVA_USER} &&\
+    chown ${JAVA_USER}:${JAVA_USER} ${WORKDIR_HOME}
 
-FROM openjdk:17-jdk-slim
+WORKDIR  ${WORKDIR_HOME}
+
+COPY --chown=${JAVA_USER}:${JAVA_USER} /target/restaurant-*.jar ./application.jar
+
+USER ${JAVA_USER}
+
 EXPOSE 8080
 
-COPY --from=build /target/restaurant-0.0.1-SNAPSHOT.jar app.jar
-
-ENTRYPOINT [ "java", "-jar", "app.jar" ]
+CMD [ "java", "-jar", "application.jar" ]
