@@ -38,7 +38,10 @@ public class WebSecurityConfig {
                             authorizationManagerRequestMatcherRegistry
                                     .requestMatchers(
                                             antMatcher(HttpMethod.OPTIONS, "/**"),
-                                            antMatcher("/v1/user/**")
+                                            antMatcher("/v1/user/**"),
+                                            antMatcher("/actuator/**"),
+                                            antMatcher("/swagger-ui/**"),
+                                            antMatcher("/v3/api-docs/**")
                                     ).permitAll()
                                     .requestMatchers(
                                             antMatcher(HttpMethod.GET, "/v1/order")
