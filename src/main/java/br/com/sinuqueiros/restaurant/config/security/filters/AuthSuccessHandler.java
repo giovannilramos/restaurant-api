@@ -2,6 +2,7 @@ package br.com.sinuqueiros.restaurant.config.security.filters;
 
 import br.com.sinuqueiros.restaurant.config.security.service.UserDetailsServiceImpl;
 import br.com.sinuqueiros.restaurant.repositories.UserRepository;
+import br.com.sinuqueiros.restaurant.services.user.dto.LoginDTO;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import jakarta.servlet.http.HttpServletRequest;
@@ -31,7 +32,7 @@ public class AuthSuccessHandler {
     @Value("${jwt.secret}")
     private String secret;
 
-    public String generateToken(final User userDetails) {
+    public LoginDTO generateToken(final User userDetails) {
         final var user = userRepository.findByUsername(userDetails.getUsername())
                 .orElseThrow(() -> new UsernameNotFoundException("Username not found"));
         final var hashMap = new HashMap<String, Object>();
@@ -39,12 +40,19 @@ public class AuthSuccessHandler {
         user.getRoles().stream().findFirst()
                 .ifPresent(rolesEntity -> hashMap.put("roles", rolesEntity.getRoleName().name()));
 
-        return JWT.create()
+        final var expiresIn = Instant.ofEpochMilli(ZonedDateTime.now(ZoneId.of("America/Sao_Paulo")).toInstant().toEpochMilli() + expTime);
+        final var token = JWT.create()
                 .withIssuer("API Restaurant")
                 .withSubject(user.getUsername())
                 .withPayload(hashMap)
-                .withExpiresAt(Instant.ofEpochMilli(ZonedDateTime.now(ZoneId.of("America/Sao_Paulo")).toInstant().toEpochMilli() + expTime))
+                .withClaim("roles", user.getRoles().stream().map(rolesEntity -> rolesEntity.getRoleName().name()).toList())
+                .withExpiresAt(expiresIn)
                 .sign(Algorithm.HMAC256(secret));
+
+        return LoginDTO.builder()
+                .token(token)
+                .expiresIn(expiresIn.toEpochMilli())
+                .build();
     }
 
     public UsernamePasswordAuthenticationToken getAuthentication(final HttpServletRequest request) {

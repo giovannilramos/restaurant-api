@@ -19,9 +19,7 @@ public class LoginService {
         try {
             final var authenticationToken = new UsernamePasswordAuthenticationToken(loginDTO.getUsername(), loginDTO.getPassword());
             final var authentication = authenticationManage.authenticate(authenticationToken);
-            final var tokenJwt = authSuccessHandler.generateToken((User) authentication.getPrincipal());
-            loginDTO.setToken(tokenJwt);
-            return loginDTO;
+            return authSuccessHandler.generateToken((User) authentication.getPrincipal());
         } catch (final Exception e) {
             throw new NotFoundException("Login not found, review the information and try again");
         }

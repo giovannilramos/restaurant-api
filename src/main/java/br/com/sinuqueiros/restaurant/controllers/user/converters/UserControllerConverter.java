@@ -13,7 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class UserControllerConverter {
     public static LoginResponse convertFromLoginDTOToLoginResponse(final LoginDTO loginDTO) {
-        return new LoginResponse(loginDTO.getToken());
+        return new LoginResponse(loginDTO.getToken(), loginDTO.getExpiresIn());
     }
 
     public static LoginDTO convertFromLoginRequestToLoginDTO(final LoginRequest loginRequest) {
