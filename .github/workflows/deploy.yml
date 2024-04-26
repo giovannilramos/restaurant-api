@@ -33,4 +33,4 @@ jobs:
       - name: Remove Container
         run: docker rm -f restaurant-api
       - name: Run Docker Container restaurant-api
-        run: docker run -d -p 8080:8080 -e DATABASE_URL=${{secrets.DATABASE_URL}} -e DATABASE_PASSWORD=${{secrets.DATABASE_PASSWORD}} -e DATABASE_USERNAME=${{secrets.DATABASE_USERNAME}} -e RABBITMQ_HOST=${{secrets.RABBITMQ_HOST}} RABBITMQ_USERNAME=${{secrets.RABBITMQ_USERNAME}} RABBITMQ_PASSWORD=${{secrets.RABBITMQ_PASSWORD}} --name restaurant-api giovannilramos/restaurant-api
+        run: docker run -d -p 8080:8080 -e DATABASE_URL=${{secrets.DATABASE_URL}} -e DATABASE_PASSWORD=${{secrets.DATABASE_PASSWORD}} -e DATABASE_USERNAME=${{secrets.DATABASE_USERNAME}} -e RABBITMQ_HOST=${{secrets.RABBITMQ_HOST}} -e RABBITMQ_USERNAME=${{secrets.RABBITMQ_USERNAME}} -e RABBITMQ_PASSWORD=${{secrets.RABBITMQ_PASSWORD}} --name restaurant-api giovannilramos/restaurant-api
