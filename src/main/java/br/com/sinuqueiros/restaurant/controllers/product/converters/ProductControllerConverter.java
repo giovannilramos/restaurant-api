@@ -16,6 +16,7 @@ public class ProductControllerConverter {
                 .name(productRequest.name())
                 .image(productRequest.image())
                 .description(productRequest.description())
+                .category(productRequest.category())
                 .status(true)
                 .price(productRequest.price())
                 .build();

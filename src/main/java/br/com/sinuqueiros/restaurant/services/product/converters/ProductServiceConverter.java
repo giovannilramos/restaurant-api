@@ -14,6 +14,7 @@ public class ProductServiceConverter {
                 .name(productDTO.getName())
                 .image(productDTO.getImage())
                 .description(productDTO.getDescription())
+                .category(productDTO.getCategory())
                 .status(productDTO.getStatus())
                 .price(productDTO.getPrice())
                 .build();

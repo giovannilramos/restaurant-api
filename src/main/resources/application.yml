@@ -14,10 +14,11 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
   rabbitmq:
-    host: localhost
+    host: gull-01.rmq.cloudamqp.com
     port: 5672
-    username: guest
-    password: guest
+    username: wejjrtdx
+    password: WPag_7dlkaRec3IQoDcPXR82bHUDelbG
+    virtual-host: wejjrtdx
 rabbitmq-config:
   queue: order-queue
   exchange: order-exchange
