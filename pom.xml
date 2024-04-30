@@ -99,6 +99,45 @@
                     </excludes>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.12</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <excludes>
+                        <exclude>br/com/sinuqueiros/restaurant/entities/**</exclude>
+                        <exclude>br/com/sinuqueiros/restaurant/repositories/**</exclude>
+
+                        <exclude>br/com/sinuqueiros/restaurant/controllers/order/requests/**</exclude>
+                        <exclude>br/com/sinuqueiros/restaurant/controllers/order/responses/**</exclude>
+                        <exclude>br/com/sinuqueiros/restaurant/controllers/product/requests/**</exclude>
+                        <exclude>br/com/sinuqueiros/restaurant/controllers/product/responses/**</exclude>
+                        <exclude>br/com/sinuqueiros/restaurant/controllers/user/requests/**</exclude>
+                        <exclude>br/com/sinuqueiros/restaurant/controllers/user/responses/**</exclude>
+
+                        <exclude>br/com/sinuqueiros/restaurant/handlers/responses/**</exclude>
+
+                        <exclude>br/com/sinuqueiros/restaurant/services/item/dto/**</exclude>
+                        <exclude>br/com/sinuqueiros/restaurant/services/order/dto/**</exclude>
+                        <exclude>br/com/sinuqueiros/restaurant/services/product/dto/**</exclude>
+                        <exclude>br/com/sinuqueiros/restaurant/services/user/dto/**</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
